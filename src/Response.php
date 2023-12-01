@@ -2,25 +2,18 @@
 
 namespace QuetzalStudio\ApiResponse;
 
-use Illuminate\Http\Resources\Json\JsonResource;
-
-class Response extends JsonResource
+class Response
 {
     /**
-     * The "data" wrapper that should be applied.
+     * Undocumented function
      *
-     * @var string
+     * @param mixed $resource
+     * @param boolean $collection
+     * @return QuetzalStudio\ApiResponse\ResourceCollection|QuetzalStudio\ApiResponse\JsonResource
      */
-    public static $wrap = null;
-
-    public function status($code)
+    public static function make($resource = null, $collection = false)
     {
-        return $this->response()->setStatusCode($code);
-    }
-
-    public function toArray($request)
-    {
-        return $this->resource->toArray();
+        return $collection ? new ResourceCollection($resource) : new JsonResource($resource);
     }
 
     public static function setupBodyKeys(array $options)
@@ -29,5 +22,10 @@ class Response extends JsonResource
         Body::$messageKey = data_get($options, 'message', 'message');
         Body::$dataKey = data_get($options, 'data', 'data');
         Body::$errorsKey = data_get($options, 'errors', 'errors');
+    }
+
+    public static function excludeBodyKeys(array $keys)
+    {
+        Body::$excludeKeys = $keys;
     }
 }
