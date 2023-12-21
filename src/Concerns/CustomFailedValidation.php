@@ -21,7 +21,7 @@ trait CustomFailedValidation
     {
         $body = Body::errors($validator->errors()->toArray())->unprocessableEntity();
 
-        $response = apiResponse($body)->status(HttpFoundationResponse::HTTP_UNPROCESSABLE_ENTITY);
+        $response = api_response($body)->status(HttpFoundationResponse::HTTP_UNPROCESSABLE_ENTITY);
 
         throw new HttpResponseException($response);
     }
